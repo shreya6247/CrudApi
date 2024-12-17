@@ -74,19 +74,10 @@ namespace CRUDusingApi.Controllers
 			httpClient.BaseAddress = new Uri("https://localhost:44341");
 
 			HttpResponseMessage resp = await httpClient.DeleteAsync($"/Api/User/{id}");
-			if (resp.IsSuccessStatusCode)
-			{
 				string msg = await resp.Content.ReadAsStringAsync();
-				TempData["msg"] = msg;
+				string demsg = JsonConvert.DeserializeObject<string>(msg); 
+				TempData["msg"] = demsg;
 				return RedirectToAction("Index");
-			}
-			else
-			{
-				string msg = await resp.Content.ReadAsStringAsync();
-				TempData["msg"] = msg;
-				return RedirectToAction("Index");
-			}
-
 
 		}
 
@@ -116,7 +107,8 @@ namespace CRUDusingApi.Controllers
 			HttpResponseMessage resp = await client.PutAsync($"Api/User/{id}",content);
 
 			string msg = await resp.Content.ReadAsStringAsync();
-			TempData["msg"] = msg;
+			string demsg = JsonConvert.DeserializeObject<string>(msg);	
+			TempData["msg"] = demsg;
 			return RedirectToAction("Index");
 
 		}
